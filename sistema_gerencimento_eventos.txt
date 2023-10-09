@@ -1,0 +1,14 @@
+Funcionalidades:
+
+	- Inserir evento:
+		- Especifica a categoria;
+		- O nome;
+		- Descrição;
+	- Remover evento:
+		- Informar categoria;
+		- Nome;
+	- Buscar eventos por categoria:
+		- Visualizar todos os eventos 		de uma categoria;
+	- Listar todas as categorias:
+		- Listar categorias de eventos 		disponíveis; 
+		- Categorias pré-definidas
