@@ -70,13 +70,32 @@ class HashTable:
                     if self.eventos[novo_hash_categoria][i] == None:
                         self.eventos[novo_hash_categoria][i] = evento
                         break
+    
+    def remove(self, categoria, evento):
+        categoria = categoria.upper()
+        evento = evento.upper()
+        valor_hash_categoria = self.hashfunction(categoria)
+        if self.categoria[valor_hash_categoria] == categoria:
+            for i in range(0, len(self.eventos[valor_hash_categoria])):
+                if self.eventos[valor_hash_categoria][i] == evento:
+                    self.eventos[valor_hash_categoria][i] = None
+                    break
+        else:
+            novo_hash_categoria = self.rehashing(valor_hash_categoria)
+            for i in range(0, len(self.eventos[novo_hash_categoria])):
+                if self.eventos[novo_hash_categoria][i] == evento:
+                    self.eventos[novo_hash_categoria][i] = None
+                    break
 
 # hashtable = HashTable()
 # hashtable.put('Festa', 'Balada')
 # hashtable.aumentar_tamanho_categoria()
 # hashtable.aumentar_tamanho_eventos()
 # hashtable.put('festa', 'Casamento')
+# hashtable.put('Tecnologia', 'palestra')
 # hashtable.aumentar_tamanho_eventos()
+# hashtable.remove('festa', 'balada')
+# hashtable.remove('tecnologia', 'PALESTRA')
 # # hashtable.aumentar_tamanho_categoria()
 # print(hashtable.categoria)
 # print(hashtable.eventos)
