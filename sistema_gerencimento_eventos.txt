@@ -10,10 +10,13 @@ Funcionalidades:
 	- Buscar eventos por categoria:
 		- Visualizar todos os eventos 		de uma categoria;
 	- Listar todas as categorias:
-		- Listar categorias de eventos 		disponíveis; 
+		- Listar categorias de eventos disponíveis; 
 		- Categorias pré-definidas
 
 Arquivos:
-	- hashtable;
-	- Evento, contém o obejto que representará o evento;
-	- Main;
+	- hashtable: put, remove, hash, rehashing; em andamento
+				 aumentarCat, aumentarEventos; (de acordo com o fator de carga) iniciado 
+				 getCategorias, getEventosCat; iniciar
+	- Evento, contém o obejto que representará o evento; iniciar
+	- Main; feito
+	- Menus; feito
