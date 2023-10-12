@@ -12,3 +12,8 @@ Funcionalidades:
 	- Listar todas as categorias:
 		- Listar categorias de eventos 		disponíveis; 
 		- Categorias pré-definidas
+
+Arquivos:
+	- hashtable;
+	- Evento, contém o obejto que representará o evento;
+	- Main;
