@@ -71,15 +71,15 @@ class HashTable:
                         self.eventos[novo_hash_categoria][i] = evento
                         break
 
-hashtable = HashTable()
-hashtable.put('Festa', 'Balada')
-hashtable.aumentar_tamanho_categoria()
-hashtable.aumentar_tamanho_eventos()
-hashtable.put('festa', 'Casamento')
-hashtable.aumentar_tamanho_eventos()
+# hashtable = HashTable()
+# hashtable.put('Festa', 'Balada')
 # hashtable.aumentar_tamanho_categoria()
-print(hashtable.categoria)
-print(hashtable.eventos)
+# hashtable.aumentar_tamanho_eventos()
+# hashtable.put('festa', 'Casamento')
+# hashtable.aumentar_tamanho_eventos()
+# # hashtable.aumentar_tamanho_categoria()
+# print(hashtable.categoria)
+# print(hashtable.eventos)
 
 
 
