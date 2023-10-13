@@ -1,3 +1,7 @@
+from eventos import Evento
+
+evento = Evento()
+
 def menuInicial():
     print('=====================================')
     print('Escolha uma das opções:')
@@ -17,7 +21,8 @@ def menuInserirEvento():
     nome_evento = input('Digite o nome do evento > ')
     descricao = input('Descreva-o rapidamente > ')
     print('====================================')
-    return categoria, nome_evento, descricao
+    evento.insertiEvento(categoria, nome_evento, descricao)
+    return evento
 
 def menuRemoverEvento():
     print('===================================')
@@ -30,6 +35,8 @@ def menuRemoverEvento():
 def listarEventosCat():
     print('===================================')
     print('Listagem de eventos por categoria:')
+    getEvento= evento.get(categoria, evento)
+    print(getEvento)
     categoria = input('Digite a categoria > ')
     print('===================================')
     return categoria
@@ -37,6 +44,8 @@ def listarEventosCat():
 def listarCategorias():
     print('==================================')
     print('Listagem de categorias:')
+    listaCategoria = evento.listarCategorias()
+    print(listaCategoria)
     categoria = input('Digite a categoria > ')
     print('==================================')
     return categoria
