@@ -42,10 +42,12 @@ def listarEventosCat(hashtable):
             print('Categoria não encontrada!')
         else:
             print('Listagem de eventos por categoria:')
+            cont = 0
             for evento in eventos:
+                cont += 1
                 print()
-                print(f'1 - {evento.getNome()}')
-                print(f'1.1 - {evento.getDescricao()}')
+                print(f'{cont} - {evento.getNome()}')
+                print(f'{cont}.1 - {evento.getDescricao()}')
     else:
         print('Não há eventos cadastrados!')
     print('===================================')
