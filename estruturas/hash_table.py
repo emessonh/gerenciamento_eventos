@@ -28,9 +28,10 @@ class HashTable:
     def rehashing(self, oldhash):
         return (oldhash+1)%self.tamanho_categorias
 
-    def put(self, categoria, evento):
+    def put(self, categoria, evento, evento_descricao):
         categoria = categoria.upper()
         evento = evento.upper()
+        evento_descricao = evento_descricao.upper()
         valor_hash_categoria = self.hashfunction(categoria)
         # verifica se a categoria já existe
         if categoria in self.categoria:
@@ -39,7 +40,7 @@ class HashTable:
                 # verifica se o slot do evento está vazio
                 for i in range(0, len(self.eventos[valor_hash_categoria])):
                     if self.eventos[valor_hash_categoria][i] == None:
-                        self.eventos[valor_hash_categoria][i] = evento
+                        self.eventos[valor_hash_categoria][i] = {"Evento": evento, "Descrição": evento_descricao}
                         break
             # executa caso o slot nao seja o da categoria
             else:
@@ -48,7 +49,8 @@ class HashTable:
                 # verifica se o slot para o evento está vazio
                 for i in range(0, len(self.eventos[novo_hash_categoria])):
                     if self.eventos[novo_hash_categoria][i] == None:
-                        self.eventos[novo_hash_categoria][i] = evento
+                        self.categoria[novo_hash_categoria] = categoria
+                        self.eventos[novo_hash_categoria][i] = {"Evento": evento, "Descrição": evento_descricao}
                         break
 
         # executa caso a categoria não exista
@@ -58,7 +60,7 @@ class HashTable:
                 self.categoria[valor_hash_categoria] = categoria
                 for i in range(0, len(self.eventos[valor_hash_categoria])):
                     if self.eventos[valor_hash_categoria][i] == None:
-                        self.eventos[valor_hash_categoria][i] = evento
+                        self.eventos[valor_hash_categoria][i] = {"Evento": evento, "Descrição": evento_descricao}
                         break
             # executa caso o slot nao esteja vazio
             else:
@@ -68,9 +70,37 @@ class HashTable:
                 # verifica se o slot para o evento está vazio
                 for i in range(0, len(self.eventos[novo_hash_categoria])):
                     if self.eventos[novo_hash_categoria][i] == None:
-                        self.eventos[novo_hash_categoria][i] = evento
+                        self.eventos[novo_hash_categoria][i] = {"Evento": evento, "Descrição": evento_descricao}
                         break
+    def get(self, categoria, evento):
+        categoria = categoria.upper()
+        evento = evento.upper()
+        valor_hash_categoria = self.hashfunction(categoria)
+        if self.categoria[valor_hash_categoria] == categoria:
+            for i in range(0, len(self.eventos[valor_hash_categoria])):
+                if self.eventos[valor_hash_categoria][i] == evento:
+                    return self.eventos[valor_hash_categoria][i]
+        else:
+            novo_hash_categoria = self.rehashing(valor_hash_categoria)
+            for i in range(0, len(self.eventos[novo_hash_categoria])):
+                if self.eventos[novo_hash_categoria][i] == evento:
+                    return self.eventos[novo_hash_categoria][i]
+        return None
     
+    def listarCategorias(self):
+        for i in range(0, len(self.categoria)):
+            if self.categoria[i] != None:
+                print(self.categoria[i])
+
+    def getCategoria(self, categoria):
+        categoria = categoria.upper()
+        valor_hash_categoria = self.hashfunction(categoria)
+        if self.categoria[valor_hash_categoria] == categoria:
+            return self.categoria[valor_hash_categoria]
+        else:
+            novo_hash_categoria = self.rehashing(valor_hash_categoria)
+            return self.categoria[novo_hash_categoria]
+        return None
     def remove(self, categoria, evento):
         categoria = categoria.upper()
         evento = evento.upper()
