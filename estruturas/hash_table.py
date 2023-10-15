@@ -44,6 +44,12 @@ class HashTable:
         evento_adic = False
         # verifica se a categoria já existe
         if categoria in self.categoria:
+            # verifica se o evento já existe
+            for evento in self.eventos[valor_hash_categoria]:
+                if evento != None and evento.nome == nome_evento:
+                    print('Evento já cadastrado!')
+                    evento_adic = False
+                    return False
             # verifica o tamanho atual da lista de eventos
             if self.qtd_eventos_categoria*0.7 >= len(self.eventos[valor_hash_categoria])*0.7:
                 self.aumentar_tamanho_eventos()
@@ -144,22 +150,33 @@ class HashTable:
             return self.categoria[novo_hash_categoria]
         return None
     
-    def remove(self, categoria, evento):
+    def remove(self,categoria,nome_evento):
         categoria = categoria.upper()
-        evento = evento.upper()
-        valor_hash_categoria = self.hashfunction(categoria)
+        nome_evento = nome_evento.upper()
+        # Verifica qual o valor da categoria
+        valor_hash_categoria = self.hashfunction(categoria)  
         if self.categoria[valor_hash_categoria] == categoria:
+            # faz uma iteracao na lista de eventos da categoria
             for i in range(0, len(self.eventos[valor_hash_categoria])):
-                if self.eventos[valor_hash_categoria][i] == evento:
-                    self.eventos[valor_hash_categoria][i] = None
-                    break
+                if self.eventos[valor_hash_categoria][i] != None:
+                    if self.eventos[valor_hash_categoria][i].getNome() == nome_evento:
+                        self.eventos[valor_hash_categoria][i] = None
+                        self.qtd_eventos_categoria -= 1
+                        return True
         else:
-            novo_hash_categoria = self.rehashing(valor_hash_categoria)
-            for i in range(0, len(self.eventos[novo_hash_categoria])):
-                if self.eventos[novo_hash_categoria][i] == evento:
-                    self.eventos[novo_hash_categoria][i] = None
-                    break
-
+            for i in range(0, len(self.eventos[0])):
+                # Verifica qual o valor da categoria com o rehashing, novo calculo de hash
+                novo_hash_categoria = self.rehashing(valor_hash_categoria)
+                if self.categoria[novo_hash_categoria] == categoria:
+                    for i in range(0, len(self.eventos[novo_hash_categoria])):
+                        if self.eventos[novo_hash_categoria][i] != None:
+                            if self.eventos[novo_hash_categoria][i].getNome() == nome_evento:
+                                self.eventos[novo_hash_categoria][i] = None
+                                self.qtd_eventos_categoria -= 1
+                                return True
+                valor_hash_categoria = novo_hash_categoria
+        return False
+    
 # hashtable = HashTable()
 # hashtable.put('Festa', 'Balada')
 # hashtable.aumentar_tamanho_categoria()

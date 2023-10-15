@@ -25,13 +25,18 @@ def menuInserirEvento(hashtable):
     else:
         print("Falha ao inserir o evento!")
 
-def menuRemoverEvento():
-    print('===================================')
-    print('Removendo evento:')
+def menuRemoverEvento(hashtable):
+    print('====================================')
+    print('Removendo Evento:')
     categoria = input('Digite a categoria do evento > ')
     nome_evento = input('Digite o nome do evento > ')
-    print('===================================')
-    return categoria, nome_evento
+    print('====================================')
+    evento_remov = hashtable.remove(categoria, nome_evento)
+    print(evento_remov)
+    if evento_remov == True:
+        print("O evento removido com sucesso!")
+    else:
+        print("Falha ao remover o evento!")
 
 def listarEventosCat(hashtable):
     categoria = input('Digite a categoria > ')
@@ -53,11 +58,9 @@ def listarEventosCat(hashtable):
     print('===================================')
     return categoria
 
-# def listarCategorias():
-#     print('==================================')
-#     print('Listagem de categorias:')
-#     # listaCategoria = evento.listarCategorias()
-#     print(listaCategoria)
-#     categoria = input('Digite a categoria > ')
-#     print('==================================')
-#     return categoria
+def listarCategorias(hashtable):
+    print('===================================')
+    print('Listagem de categorias:')
+    categorias = hashtable.listarCategorias()
+    print('===================================')
+    return categorias
