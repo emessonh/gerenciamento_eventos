@@ -144,21 +144,46 @@ class HashTable:
             return self.categoria[novo_hash_categoria]
         return None
     
-    def remove(self, categoria, evento):
+    def remove(self,categoria,nome_evento):
         categoria = categoria.upper()
-        evento = evento.upper()
+        nome_evento = nome_evento.upper()
         valor_hash_categoria = self.hashfunction(categoria)
         if self.categoria[valor_hash_categoria] == categoria:
             for i in range(0, len(self.eventos[valor_hash_categoria])):
-                if self.eventos[valor_hash_categoria][i] == evento:
-                    self.eventos[valor_hash_categoria][i] = None
-                    break
+                if self.eventos[valor_hash_categoria][i] != None:
+                    if self.eventos[valor_hash_categoria][i].getNome() == nome_evento:
+                        self.eventos[valor_hash_categoria][i] = None
+                        self.qtd_eventos_categoria -= 1
+                        return True
         else:
-            novo_hash_categoria = self.rehashing(valor_hash_categoria)
-            for i in range(0, len(self.eventos[novo_hash_categoria])):
-                if self.eventos[novo_hash_categoria][i] == evento:
-                    self.eventos[novo_hash_categoria][i] = None
-                    break
+            for i in range(0, len(self.eventos[0])):
+                novo_hash_categoria = self.rehashing(valor_hash_categoria)
+                if self.categoria[novo_hash_categoria] == categoria:
+                    for i in range(0, len(self.eventos[novo_hash_categoria])):
+                        if self.eventos[novo_hash_categoria][i] != None:
+                            if self.eventos[novo_hash_categoria][i].getNome() == nome_evento:
+                                self.eventos[novo_hash_categoria][i] = None
+                                self.qtd_eventos_categoria -= 1
+                                return True
+                valor_hash_categoria = novo_hash_categoria
+        return False
+    
+    # def remove(self, categoria, evento):
+    #     categoria = categoria.upper()
+    #     evento = evento.upper()
+    #     valor_hash_categoria = self.hashfunction(categoria)
+    #     if self.categoria[valor_hash_categoria] == categoria:
+    #         for i in range(0, len(self.eventos[valor_hash_categoria])):
+    #             if self.eventos[valor_hash_categoria][i] == evento:
+    #                 self.eventos[valor_hash_categoria][i] = None
+    #                 break
+    #     else:
+    #         novo_hash_categoria = self.rehashing(valor_hash_categoria)
+    #         for i in range(0, len(self.eventos[novo_hash_categoria])):
+    #             if self.eventos[novo_hash_categoria][i] == evento:
+    #                 self.eventos[novo_hash_categoria][i] = None
+    #                 break
+
 
 # hashtable = HashTable()
 # hashtable.put('Festa', 'Balada')

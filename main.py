@@ -7,13 +7,12 @@ while True:
     if opcao == 1:
         menuInserirEvento(hashtable)
     elif opcao == 2:
-        evento = menuRemoverEvento()
-        print('Evento Removido com sucesso!')
+        evento = menuRemoverEvento(hashtable)
     elif opcao == 3:
         listarEventosCat(hashtable)
     elif opcao == 4:
-        # categoria = listarCategorias()
         print('Categorias disponíveis: ')
+        categoria = listarCategorias(hashtable)
     elif opcao == 5:
         print('Finalizando sistema...')
         break
