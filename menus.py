@@ -21,7 +21,7 @@ def menuInserirEvento(hashtable):
     print('====================================')
     evento_adic = hashtable.put(categoria, nome_evento, descricao)
     if evento_adic == True:
-        print("O evento inserido com sucesso!")
+        print("Evento inserido com sucesso!")
     else:
         print("Falha ao inserir o evento!")
 
@@ -32,9 +32,8 @@ def menuRemoverEvento(hashtable):
     nome_evento = input('Digite o nome do evento > ')
     print('====================================')
     evento_remov = hashtable.remove(categoria, nome_evento)
-    print(evento_remov)
     if evento_remov == True:
-        print("O evento removido com sucesso!")
+        print("Evento removido com sucesso!")
     else:
         print("Falha ao remover o evento!")
 
