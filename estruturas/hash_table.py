@@ -15,25 +15,25 @@ class HashTable:
     def tamanhoEventos(self):
         return self.qtd_eventos_categoria
 
-    def aumentar_tamanho_eventos(self):
+    def aumentar_tamanho_eventos(self, tamanho_lista):
         aumento = None
         # define quanto deve ser o aumento
-        if self.qtd_eventos_categoria > 1:
-            aumento = self.qtd_eventos_categoria - 1
-            tamanho = self.qtd_eventos_categoria + aumento
+        if tamanho_lista > 1:
+            aumento = tamanho_lista - 1
+            tamanho = tamanho_lista + aumento
             if tamanho != 3 and tamanho != 5:
-                for y in range(0, self.qtd_eventos_categoria-1):
+                for y in range(0, tamanho_lista-1):
                     if tamanho%2 != 0 and tamanho%3 != 0 and tamanho%5 != 0:
                         break
                     else:
                         tamanho -= 1
-                aumento = tamanho - self.qtd_eventos_categoria
+                aumento = tamanho - tamanho_lista
         else:
-            aumento = self.qtd_eventos_categoria
+            aumento = tamanho_lista
         
         # Adiciona os slots todas as listas de todas as categoria
         for c in range(0, self.tamanho_categorias):
-            for i in range(0, self.qtd_eventos_categoria):
+            for i in range(0, aumento):
                 self.eventos[c].append(None) 
     
     def aumentar_tamanho_categoria(self):
@@ -83,14 +83,14 @@ class HashTable:
         evento_adic = False
         # verifica se a categoria já existe
         if categoria in self.categoria:
-            # verifica o tamanho atual da lista de eventos
-            if self.qtd_eventos_categoria*0.7 >= len(self.eventos[valor_hash_categoria])*0.7:
-                self.aumentar_tamanho_eventos()
-            if self.qtd_eventos_categoria*0.7 < len(self.eventos[valor_hash_categoria])*0.7:
-                # Verifica se é o slot da categoria 
-                if self.categoria[valor_hash_categoria] == categoria:
-                    # # verifica se o evento já existe
+            # Verifica se é o slot da categoria 
+            if self.categoria[valor_hash_categoria] == categoria:
+                # verifica o tamanho atual da lista de eventos
+                if self.qtd_eventos_categoria*0.7 >= len(self.eventos[valor_hash_categoria])*0.7:
+                    self.aumentar_tamanho_eventos(len(self.eventos[valor_hash_categoria]))
+                if self.qtd_eventos_categoria*0.7 < len(self.eventos[valor_hash_categoria])*0.7:
                     evento_existe = self.existenciaEvento(evento, nome_evento, valor_hash_categoria)
+                    # verifica se o evento já existe
                     if evento_existe:
                         pass
                     else:
@@ -101,12 +101,16 @@ class HashTable:
                                 self.qtd_eventos_categoria += 1
                                 evento_adic = True
                                 break
-                # executa caso o slot nao seja o da categoria
-                else:
-                    for i in range(0, len(self.categoria)):
-                        # calcula um novo hash para a categoria
-                        novo_hash_categoria = self.rehashing(valor_hash_categoria)
-                        if self.categoria[novo_hash_categoria] == categoria:
+            # executa caso o slot nao seja o da categoria
+            else:
+                for i in range(0, len(self.categoria)):
+                    # calcula um novo hash para a categoria
+                    novo_hash_categoria = self.rehashing(valor_hash_categoria)
+                    if self.categoria[novo_hash_categoria] == categoria:
+                        # verifica o tamanho atual da lista de eventos
+                        if self.qtd_eventos_categoria*0.7 >= len(self.eventos[valor_hash_categoria])*0.7:
+                            self.aumentar_tamanho_eventos(len(self.eventos[valor_hash_categoria]))
+                        if self.qtd_eventos_categoria*0.7 < len(self.eventos[valor_hash_categoria])*0.7:
                             evento_existe = self.existenciaEvento(evento, nome_evento, novo_hash_categoria)
                             if evento_existe:
                                 pass
@@ -118,24 +122,28 @@ class HashTable:
                                         evento_adic = True
                                         self.qtd_eventos_categoria += 1
                                         break
-                        valor_hash_categoria = novo_hash_categoria
+                    valor_hash_categoria = novo_hash_categoria
 
         # executa caso a categoria não exista
         else:
             # Verifica a capacidade atual da lista de categorias
             if self.tamanho_categorias*0.7 >= len(self.categoria)*0.7:
                 self.aumentar_tamanho_categoria()
-            if self.tamanhoCateg()*0.7 < len(self.categoria):
+            if self.tamanho_categorias*0.7 < len(self.categoria):
                 # Verifica se o slot da categoria está vazio
                 if self.categoria[valor_hash_categoria] == None:
                     self.categoria[valor_hash_categoria] = categoria
                     self.tamanho_categorias += 1
-                    for i in range(0, len(self.eventos[valor_hash_categoria])):
-                        if self.eventos[valor_hash_categoria][i] == None:
-                            self.eventos[valor_hash_categoria][i] = evento
-                            self.qtd_eventos_categoria += 1
-                            evento_adic = True
-                            break
+                    # verifica o tamanho atual da lista de eventos
+                    if self.qtd_eventos_categoria*0.7 >= len(self.eventos[valor_hash_categoria])*0.7:
+                        self.aumentar_tamanho_eventos(len(self.eventos[valor_hash_categoria]))
+                    if self.qtd_eventos_categoria*0.7 < len(self.eventos[valor_hash_categoria])*0.7:
+                        for i in range(0, len(self.eventos[valor_hash_categoria])):
+                            if self.eventos[valor_hash_categoria][i] == None:
+                                self.eventos[valor_hash_categoria][i] = evento
+                                self.qtd_eventos_categoria += 1
+                                evento_adic = True
+                                break
                 # executa caso o slot nao esteja vazio
                 else:
                     # procura um slot vazio na lista de categoria
@@ -145,18 +153,20 @@ class HashTable:
                         if self.categoria[novo_hash_categoria] == None:
                             self.categoria[novo_hash_categoria] = categoria
                             self.tamanho_categorias += 1
-                            # verifica se o slot para o evento está vazio
-                            for i in range(0, len(self.eventos[novo_hash_categoria])):
-                                if self.eventos[novo_hash_categoria][i] == None:
-                                    self.eventos[novo_hash_categoria][i] = evento
-                                    self.qtd_eventos_categoria += 1
-                                    evento_adic = True
-                                    break
+                            # verifica o tamanho atual da lista de eventos
+                            if self.qtd_eventos_categoria*0.7 >= len(self.eventos[valor_hash_categoria])*0.7:
+                                self.aumentar_tamanho_eventos(len(self.eventos[valor_hash_categoria]))
+                            if self.qtd_eventos_categoria*0.7 < len(self.eventos[valor_hash_categoria])*0.7:
+                                # verifica se o slot para o evento está vazio
+                                for i in range(0, len(self.eventos[novo_hash_categoria])):
+                                    if self.eventos[novo_hash_categoria][i] == None:
+                                        self.eventos[novo_hash_categoria][i] = evento
+                                        self.qtd_eventos_categoria += 1
+                                        evento_adic = True
+                                        break
                             # para a execucao ao achar uma posicao vazia de categoria 
                             break
                         valor_hash_categoria = novo_hash_categoria
-        print(self.categoria)
-        print(self.eventos)
         # retorna se o evento foi adicionado com sucesso
         return evento_adic
     
@@ -183,19 +193,14 @@ class HashTable:
         return [False]
         
     def listarCategorias(self):
-        for i in range(0, len(self.categoria)):
-            if self.categoria[i] != None:
-                print(self.categoria[i])
+        if self.tamanho_categorias == 0:
+            print("Não há categorias disponíveis!")
+        else:
+            print('Listagem de categorias:')
+            for i in range(0, len(self.categoria)):
+                if self.categoria[i] != None:
+                    print(self.categoria[i])
 
-    # def getCategoria(self, categoria):
-    #     categoria = categoria.upper()
-    #     valor_hash_categoria = self.hashfunction(categoria)
-    #     if self.categoria[valor_hash_categoria] == categoria:
-    #         return self.categoria[valor_hash_categoria]
-    #     else:
-    #         novo_hash_categoria = self.rehashing(valor_hash_categoria)
-    #         return self.categoria[novo_hash_categoria]
-    #     return None
     
     def remove(self,categoria,nome_evento):
         categoria = categoria.upper()

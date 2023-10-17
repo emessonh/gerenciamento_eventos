@@ -59,7 +59,6 @@ def listarEventosCat(hashtable):
 
 def listarCategorias(hashtable):
     print('===================================')
-    print('Listagem de categorias:')
     categorias = hashtable.listarCategorias()
     print('===================================')
     return categorias

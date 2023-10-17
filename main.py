@@ -11,7 +11,6 @@ while True:
     elif opcao == 3:
         listarEventosCat(hashtable)
     elif opcao == 4:
-        print('Categorias disponíveis: ')
         categoria = listarCategorias(hashtable)
     elif opcao == 5:
         print('Finalizando sistema...')
